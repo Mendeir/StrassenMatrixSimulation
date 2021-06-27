@@ -4,16 +4,21 @@ import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Random;
 
 public class InputWindow extends JFrame implements ActionListener {
 
 
     // Instant variables declaration
     String [] sizes = {"2x2", "4x4", "8x8"};
+    char [] letters = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'};
+    String [][] matrixA;
+    String [][] matrixB;
 
     //declaration for matrixSize
     int row;
     int column;
+
     //instantiation for loops
     int i = 0;
     int j = 0;
@@ -29,9 +34,11 @@ public class InputWindow extends JFrame implements ActionListener {
     JButton enterButton = new JButton("Enter");
     JButton rightButton = new JButton(">");
     JButton leftButton = new JButton("<");
+    JButton randomButton = new JButton("Random");
     JComboBox matrixSize = new JComboBox(sizes);
     GridBagConstraints gbc = new GridBagConstraints();
-    JTextField[][] input;
+    JTextField[][] inputOne;
+    JTextField[][] inputTwo;
     TitledBorder title;
     Border blackline = BorderFactory.createLineBorder(Color.BLACK);
 
@@ -40,40 +47,50 @@ public class InputWindow extends JFrame implements ActionListener {
 
         // Frame size and design
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setBounds(400,50,820,600);
+        frame.setBounds(200,0,1000,700);
 
         //format for display output
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(5, 5, 5, 5);
 
         // Panel size and format
-        panelOne.setBounds(0,30,400,200);
+        dropDownPanel.setBounds(0,0,1000,50);
+        dropDownPanel.setBackground(Color.ORANGE);
+        panelOne.setBounds(0,50,500,300);
         panelOne.setLayout(new GridBagLayout());
         title = BorderFactory.createTitledBorder(blackline, "Matrix A");
         title.setTitleJustification(TitledBorder.CENTER);
         panelOne.setBorder(title);
-
-        //panelOne.setBackground(Color.BLUE);
-        panelTwo.setBounds(400,30,400,200);
+        panelOne.setBackground(Color.BLUE);
+        panelTwo.setBounds(500,50,500,300);
         panelTwo.setLayout(new GridBagLayout());
         title = BorderFactory.createTitledBorder( blackline,"Matrix B");
         title.setTitleJustification(TitledBorder.CENTER);
         panelTwo.setBorder(title);
-        //panelTwo.setBackground(Color.GREEN);
-        panelThree.setBounds(0,180,400,250);
-        //panelThree.setBackground(Color.DARK_GRAY);
-        panelFour.setBounds(400,180,400,250);
-        //panelFour.setBackground(Color.PINK);
-        panelMenu.setBounds(0,430,800,100);
-        //panelMenu.setBackground(Color.BLACK);
-        dropDownPanel.setBounds(0,0,800,100);
+        panelTwo.setBackground(Color.GREEN);
+        panelThree.setBounds(0,350,500,300);
+        panelThree.setBackground(Color.DARK_GRAY);
+        panelFour.setBounds(500,350,500,300);
+        panelFour.setBackground(Color.PINK);
+        panelMenu.setBounds(0,650,800,100);
+        panelMenu.setBackground(Color.BLACK);
 
         // Button sizes and formats
-        // Combobox design and simulations
-        dropDownPanel.add(matrixSize);
-        matrixSize.setBounds(350, 20, 100, 25);
-        matrixSize.addActionListener(this);
+        dropDownPanel.add(leftButton);
+        dropDownPanel.add(rightButton);
+        rightButton.addActionListener(this);
+        leftButton.addActionListener(this);
+        randomButton.setBounds(0,20,100,30);
+        randomButton.addActionListener(this);
+        dropDownPanel.add(randomButton);
+        enterButton.setBounds(300,20,100,25);
+        enterButton.addActionListener(this);
+        dropDownPanel.add(enterButton);
 
+        // Combobox design and simulations
+        matrixSize.setBounds(200, 20, 100, 25);
+        matrixSize.addActionListener(this);
+        dropDownPanel.add(matrixSize);
 
         // Adds and visibility of the frame
         frame.add(panelOne);
@@ -102,51 +119,143 @@ public class InputWindow extends JFrame implements ActionListener {
         }
 
         if(e.getSource() == enterButton){
+            matrixA = new String[row][column];
+            matrixB = new String[row][column];
 
+            // Store all the values input by the user on Matrix A
+            for(i=0;i<row;i++){
+                for(j=0;j<column;j++){
+                    matrixA[i][j] = inputOne[i][j].getText();
+                }
+            }
+
+            // Store all the values input by the user on Matrix B
+            for(i=0;i<row;i++){
+                for(j=0;j<column;j++){
+                    matrixB[i][j] = inputTwo[i][j].getText();
+                }
+            }
+            for(i=0;i<row;i++){
+                for(j=0;j<column;j++){
+                    System.out.println(matrixA[i][j]);
+                }
+            }
+            for(i=0;i<row;i++){
+                for(j=0;j<column;j++){
+                    System.out.println(matrixB[i][j]);
+                }
+            }
         }
 
+        // Random Button action
+        if(e.getSource() == randomButton){
+            matrixA = new String[row][column];
+            matrixB = new String[row][column];
+            randomNumbers();
+        }
+
+        // Next Button Action
         if(e.getSource() == rightButton){
 
         }
 
+        // Previous Button Action
         if(e.getSource() == leftButton){
 
         }
     }
     // layout for combo box options
     public void gridLayoutOne(int row, int column) {
-        input = new JTextField[row][column];
+        inputOne = new JTextField[row][column];
         panelOne.removeAll();
         panelOne.revalidate();
         frame.repaint();
 
         for (i = 0; i < row; i++) {
             for (j = 0; j < column; j++) {
-                    input[i][j] = new JTextField("-", 3);
+                    inputOne[i][j] = new JTextField(3);
                     gbc.gridx = i;
                     gbc.gridy = j;
-                    input[i][j].setFont(new Font("Arial", Font.PLAIN, 15));
-                    panelOne.add(input[i][j], gbc);
-                    input[i][j].setHorizontalAlignment(JTextField.CENTER);
+                    inputOne[i][j].setFont(new Font("Arial", Font.PLAIN, 15));
+                    panelOne.add(inputOne[i][j], gbc);
+                    inputOne[i][j].setHorizontalAlignment(JTextField.CENTER);
                 }
             }
         }
 
     public void gridLayoutTwo(int row, int column) {
-        input = new JTextField[row][column];
+        inputTwo = new JTextField[row][column];
         panelTwo.removeAll();
         panelTwo.revalidate();
         frame.repaint();
 
         for (i = 0; i < row; i++) {
             for (j = 0; j < column; j++) {
-                input[i][j] = new JTextField("-", 3);
+                inputTwo[i][j] = new JTextField(3);
                 gbc.gridx = i;
                 gbc.gridy = j;
-                input[i][j].setFont(new Font("Arial", Font.PLAIN, 15));
-                panelTwo.add(input[i][j], gbc);
-                input[i][j].setHorizontalAlignment(JTextField.CENTER);
+                inputTwo[i][j].setFont(new Font("Arial", Font.PLAIN, 15));
+                panelTwo.add(inputTwo[i][j], gbc);
+                inputTwo[i][j].setHorizontalAlignment(JTextField.CENTER);
             }
         }
     }
+
+    // Dividing the two matrix
+    public void divideMatrix(){
+
+    }
+
+    // Conquer the divided sub-problems
+    public void conquerMatrix(){
+
+    }
+
+    // Randomize numbers
+    public void randomNumbers(){
+        Random randNUm = new Random();
+        int bounds = 15;
+
+        for(i=0;i<row;i++){
+            for(j=0;j<column;j++){
+                matrixA[i][j] = Integer.toString(randNUm.nextInt(bounds));
+            }
+        }
+
+        for(i=0;i<row;i++){
+            for(j=0;j<column;j++){
+                matrixB[i][j] = Integer.toString(randNUm.nextInt(bounds));
+            }
+        }
+
+        for(i=0;i<row;i++){
+            for(j=0;j<column;j++){
+                //inputOne[i][j] = new JTextField(matrixA[i][j]);
+            }
+        }
+        for(i=0;i<row;i++){
+            for(j=0;j<column;j++){
+                //inputTwo[i][j] = new JTextField(matrixB[i][j]);
+            }
+        }
+
+    }
+
+    public void resultMatrix(){
+
+    }
+
+    public void panelOneDisplay(){
+
+    }
+    public void panelTwoDisplay(){
+
+    }
+    public void panelThreeDisplay(){
+
+    }
+    public void panelFourDisplay(){
+
+    }
+
 }
