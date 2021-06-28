@@ -187,6 +187,7 @@ public class Logic {
             joinMatrix(resultMatrix, matrixResultQ3, matrixSize/2, 0);
             joinMatrix(resultMatrix, matrixResultQ4, matrixSize/2, matrixSize/2);
         }
+        System.out.println("Test Multiply method");
         return resultMatrix;
     }
 
@@ -259,5 +260,17 @@ public class Logic {
             }
             System.out.println();
         }
+    }
+
+    public int[][][] getSplitMatrixResult() {
+        return splitMatrixResult;
+    }
+
+    public int[][][] getPointsMatrixResult() {
+        return pointsMatrixResult;
+    }
+
+    public int[][][] getResultantMatrixResult() {
+        return resultantMatrixResult;
     }
 }
