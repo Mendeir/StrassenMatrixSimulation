@@ -118,6 +118,17 @@ public class InputWindow extends JFrame implements ActionListener {
             gridLayoutTwo(row, column);
         }
 
+        // Random Button action
+        if(e.getSource() == randomButton){
+            for(i=0;i<row;i++){
+                for(j=0;j<column;j++){
+                    inputOne[i][j].setText(String.format("%d", (int)(Math.random() * 5)));
+                    inputTwo[i][j].setText(String.format("%d", (int)(Math.random() * 5)));
+                }
+            }
+        }
+
+        // Enter button action
         if(e.getSource() == enterButton){
             matrixA = new String[row][column];
             matrixB = new String[row][column];
@@ -135,23 +146,6 @@ public class InputWindow extends JFrame implements ActionListener {
                     matrixB[i][j] = inputTwo[i][j].getText();
                 }
             }
-            for(i=0;i<row;i++){
-                for(j=0;j<column;j++){
-                    System.out.println(matrixA[i][j]);
-                }
-            }
-            for(i=0;i<row;i++){
-                for(j=0;j<column;j++){
-                    System.out.println(matrixB[i][j]);
-                }
-            }
-        }
-
-        // Random Button action
-        if(e.getSource() == randomButton){
-            matrixA = new String[row][column];
-            matrixB = new String[row][column];
-            randomNumbers();
         }
 
         // Next Button Action
@@ -211,35 +205,6 @@ public class InputWindow extends JFrame implements ActionListener {
 
     }
 
-    // Randomize numbers
-    public void randomNumbers(){
-        Random randNUm = new Random();
-        int bounds = 15;
-
-        for(i=0;i<row;i++){
-            for(j=0;j<column;j++){
-                matrixA[i][j] = Integer.toString(randNUm.nextInt(bounds));
-            }
-        }
-
-        for(i=0;i<row;i++){
-            for(j=0;j<column;j++){
-                matrixB[i][j] = Integer.toString(randNUm.nextInt(bounds));
-            }
-        }
-
-        for(i=0;i<row;i++){
-            for(j=0;j<column;j++){
-                //inputOne[i][j] = new JTextField(matrixA[i][j]);
-            }
-        }
-        for(i=0;i<row;i++){
-            for(j=0;j<column;j++){
-                //inputTwo[i][j] = new JTextField(matrixB[i][j]);
-            }
-        }
-
-    }
 
     public void resultMatrix(){
 
