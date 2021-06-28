@@ -5,15 +5,31 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Random;
+import java.awt.Graphics;
 
 public class InputWindow extends JFrame implements ActionListener {
+
+    // Calling Logic window
+    Logic strassenLogic = new Logic();
 
 
     // Instant variables declaration
     String [] sizes = {"2x2", "4x4", "8x8"};
     char [] letters = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'};
-    String [][] matrixA;
-    String [][] matrixB;
+    int [][] matrixA;
+    int [][] matrixB;
+
+    //Stored values of the process
+
+    int [][][] splitMatrixResult;
+    int [][][] pointsMatrixResult;
+    int [][][] resultantMatrixResult;
+
+    //Matrix Navigation Counter
+    int navigationCounter = 0;
+    int splitMatrixCounter = 0;
+    int pointsMatrixCounter = 0;
+    int resultantMatrixCounter = 0;
 
     //declaration for matrixSize
     int row;
@@ -41,6 +57,10 @@ public class InputWindow extends JFrame implements ActionListener {
     JTextField[][] inputTwo;
     TitledBorder title;
     Border blackline = BorderFactory.createLineBorder(Color.BLACK);
+
+    // JLabels
+    JLabel displayAValues;
+    JLabel displayBValues;
 
     // Constructor
     InputWindow(){
@@ -105,6 +125,7 @@ public class InputWindow extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+
         // box size action
         if (e.getSource() == matrixSize) {
 
@@ -130,22 +151,30 @@ public class InputWindow extends JFrame implements ActionListener {
 
         // Enter button action
         if(e.getSource() == enterButton){
-            matrixA = new String[row][column];
-            matrixB = new String[row][column];
+
+            // Initialize matrixA and matrixB sizes
+            matrixA = new int[row][column];
+            matrixB = new int[row][column];
 
             // Store all the values input by the user on Matrix A
             for(i=0;i<row;i++){
                 for(j=0;j<column;j++){
-                    matrixA[i][j] = inputOne[i][j].getText();
+                    matrixA[i][j] = Integer.parseInt(inputOne[i][j].getText());
                 }
             }
 
             // Store all the values input by the user on Matrix B
             for(i=0;i<row;i++){
                 for(j=0;j<column;j++){
-                    matrixB[i][j] = inputTwo[i][j].getText();
+                    matrixB[i][j] = Integer.parseInt(inputTwo[i][j].getText());
                 }
             }
+
+            strassenLogic.multiplyMatrix(matrixA,matrixB);
+            splitMatrixResult = strassenLogic.getSplitMatrixResult();
+            pointsMatrixResult = strassenLogic.getPointsMatrixResult();
+            resultantMatrixResult = strassenLogic.getResultantMatrixResult();
+
         }
 
         // Next Button Action
@@ -205,7 +234,6 @@ public class InputWindow extends JFrame implements ActionListener {
 
     }
 
-
     public void resultMatrix(){
 
     }
@@ -222,5 +250,7 @@ public class InputWindow extends JFrame implements ActionListener {
     public void panelFourDisplay(){
 
     }
+
+
 
 }
