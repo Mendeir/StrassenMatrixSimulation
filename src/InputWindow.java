@@ -1,5 +1,6 @@
 import javax.swing.*;
 import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -47,6 +48,7 @@ public class InputWindow extends JFrame implements ActionListener {
     JPanel panelFour = new JPanel();
     JPanel dropDownPanel = new JPanel();
     JPanel panelMenu = new JPanel();
+    JPanel result = new JPanel();
     JButton enterButton = new JButton("Enter");
     JButton rightButton = new JButton(">");
     JButton leftButton = new JButton("<");
@@ -56,6 +58,7 @@ public class InputWindow extends JFrame implements ActionListener {
     JLabel[][] matrixDisplay;
     JLabel[][] splitMatrixDisplay;
     JLabel[][] pointMatrixDisplay;
+    JLabel[][] resultMatrixDisplay;
     JLabel[][] test;
     JTextField[][] inputOne;
     JTextField[][] inputTwo;
@@ -263,17 +266,26 @@ public class InputWindow extends JFrame implements ActionListener {
 
             case 2:
                 displaySplitBox("p2 = (a + b)h", "p1 = a(f - h)", "p3 = (c + d)e", "p4 = d(g - e)");
-                conquerMatrix("C1");
+                conquerMatrix("PA1");
                 break;
             case 3:
-                displaySplitBox("p6 = (b - d)(g + h)", "p5 = (a + d)(e + h)", "p7 = (a - c)(e + f)", "");
-                conquerMatrix("C2");
+                displaySplitBox("p6 = (b - d)(g + h)", "p5 = (a + d)(e + h)", "p7 = (a - c)(e + f)");
+                conquerMatrix("PA2");
                 break;
             case 4:
-                displaySplitBox("p1 + p2", "p5 + p4 - p2 + p6", "p3 + p4", "p1 + p5 - p3 - p7");
+                displaySplitBox("p2 = (a + b)h", "p1 = a(f - h)", "p3 = (c + d)e", "p4 = d(g - e)");
+                conquerMatrix("PB1");
                 break;
             case 5:
-
+                displaySplitBox("p6 = (b - d)(g + h)", "p5 = (a + d)(e + h)", "p7 = (a - c)(e + f)");
+                conquerMatrix("PB2");
+                break;
+            case 6:
+                displaySplitBox("p1 + p2", "p5 + p4 - p2 + p6", "p3 + p4", "p1 + p5 - p3 - p7");
+                resultMatrix("C");
+                break;
+            case 7:
+                displaySplitBox("STRASSEN MULTIPLICATION RESULT");
                 break;
 
 
@@ -293,6 +305,26 @@ public class InputWindow extends JFrame implements ActionListener {
         title = BorderFactory.createTitledBorder(blackLine, q4Title);
         title.setTitleJustification(TitledBorder.CENTER);
         panelFour.setBorder(title);
+    }
+    public void displaySplitBox(String q1Title, String q2Title, String q3Title) {
+        title = BorderFactory.createTitledBorder(blackLine, q1Title);
+        title.setTitleJustification(TitledBorder.CENTER);
+        panelTwo.setBorder(title);
+        title = BorderFactory.createTitledBorder(blackLine, q2Title);
+        title.setTitleJustification(TitledBorder.CENTER);
+        panelOne.setBorder(title);
+        title = BorderFactory.createTitledBorder(blackLine, q3Title);
+        title.setTitleJustification(TitledBorder.CENTER);
+        panelThree.setBorder(title);
+        panelFour.setBorder(new EmptyBorder(0, 0, 0, 0));
+    }
+    public void displaySplitBox(String resultTitle) {
+        result.setBounds(0, 50, 1000, 700);
+        result.setLayout(new GridBagLayout());
+        title = BorderFactory.createTitledBorder(blackLine, resultTitle);
+        title.setTitleJustification(TitledBorder.CENTER);
+        result.setBorder(title);
+        frame.add(result);
     }
 
     public void displaySplitMatrix(String matrixLetter) {
@@ -381,68 +413,242 @@ public class InputWindow extends JFrame implements ActionListener {
     // Conquer the divided sub-problems
     public void conquerMatrix(String matrixLetter) {
         splitMatrixDisplay = new JLabel[row][column];
-        pointMatrixDisplay = new JLabel[row][column];
+
         int loopStart = 0;
         int loopEnd = 0;
         int quadrantCounter = 0;
 
-        if(matrixLetter.equals("C1")){
-           loopEnd = 8;
-        }else{
+        if(matrixLetter.equals("PA1")){
+           loopEnd = 4;
+        }else if (matrixLetter.equals("PA2")){
             loopStart = 4;
-            loopEnd = 8;
+            loopEnd = 7;
+
+        //}else if(matrixLetter.equals("PB1")){
+
+       // }else{
+
         }
         for (int processCounter = loopStart; processCounter < loopEnd; ++processCounter) {
             for (i = 0; i < splitMatrixResult[splitMatrixCounter].length; i++) {
                 for (j = 0; j < splitMatrixResult[splitMatrixCounter][i].length; j++) {
                     gbc.gridx = j;
                     gbc.gridy = i;
-
                     switch (quadrantCounter) {
                         case 0 -> {
-                            splitMatrixDisplay[i][j] = new JLabel(Integer.toString(splitMatrixResult[processCounter][i][j]));
-                            pointMatrixDisplay[i][j] = new JLabel(Integer.toString(pointsMatrixResult[processCounter][i][j]));
+                            splitMatrixDisplay[i][j] = new JLabel("(");
                             splitMatrixDisplay[i][j].setFont(new Font("Arial", Font.BOLD, 25));
-                            pointMatrixDisplay[i][j].setFont(new Font("Arial", Font.BOLD, 25));
-                            panelTwo.add(test[i][j], gbc);
-                            panelTwo.add(pointMatrixDisplay[i][j], gbc);
+                            panelTwo.add(splitMatrixDisplay[i][j], gbc);
+
+                            splitMatrixDisplay[i][j] = new JLabel(Integer.toString(splitMatrixResult[1][i][j]));
+                            splitMatrixDisplay[i][j].setFont(new Font("Arial", Font.BOLD, 25));
+                            gbc.gridx = j+2;
+                            panelTwo.add(splitMatrixDisplay[i][j], gbc);
+
+                            splitMatrixDisplay[i][j] = new JLabel("+");
+                            splitMatrixDisplay[i][j].setFont(new Font("Arial", Font.BOLD, 25));
+                            gbc.gridx = j+3;
+                            panelTwo.add(splitMatrixDisplay[i][j], gbc);
+
+                            splitMatrixDisplay[i][j] = new JLabel(Integer.toString(splitMatrixResult[0][i][j]));
+                            splitMatrixDisplay[i][j].setFont(new Font("Arial", Font.BOLD, 25));
+                            gbc.gridx = j+4;
+                            panelTwo.add(splitMatrixDisplay[i][j], gbc);
+
+                            splitMatrixDisplay[i][j] = new JLabel(")");
+                            splitMatrixDisplay[i][j].setFont(new Font("Arial", Font.BOLD, 25));
+                            gbc.gridx = j+5;
+                            panelTwo.add(splitMatrixDisplay[i][j], gbc);
+
+                            splitMatrixDisplay[i][j] = new JLabel(Integer.toString(splitMatrixResult[7][i][j]));
+                            splitMatrixDisplay[i][j].setFont(new Font("Arial", Font.BOLD, 25));
+                            gbc.gridx = j+6;
+                            panelTwo.add(splitMatrixDisplay[i][j], gbc);
                         }
                         case 1 -> {
-                            splitMatrixDisplay[i][j] = new JLabel(Integer.toString(splitMatrixResult[processCounter][i][j]));
-                            pointMatrixDisplay[i][j] = new JLabel(Integer.toString(pointsMatrixResult[processCounter][i][j]));
+                            splitMatrixDisplay[i][j] = new JLabel(Integer.toString(splitMatrixResult[1][i][j]));
                             splitMatrixDisplay[i][j].setFont(new Font("Arial", Font.BOLD, 25));
-                            pointMatrixDisplay[i][j].setFont(new Font("Arial", Font.BOLD, 25));
                             panelOne.add(splitMatrixDisplay[i][j], gbc);
-                            panelOne.add(pointMatrixDisplay[i][j], gbc);
+
+                            splitMatrixDisplay[i][j] = new JLabel("(");
+                            splitMatrixDisplay[i][j].setFont(new Font("Arial", Font.BOLD, 25));
+                            gbc.gridx = j+2;
+                            panelOne.add(splitMatrixDisplay[i][j], gbc);
+
+                            splitMatrixDisplay[i][j] = new JLabel(Integer.toString(splitMatrixResult[4][i][j]));
+                            splitMatrixDisplay[i][j].setFont(new Font("Arial", Font.BOLD, 25));
+                            gbc.gridx = j+3;
+                            panelOne.add(splitMatrixDisplay[i][j], gbc);
+
+                            splitMatrixDisplay[i][j] = new JLabel("-");
+                            splitMatrixDisplay[i][j].setFont(new Font("Arial", Font.BOLD, 25));
+                            gbc.gridx = j+4;
+                            panelOne.add(splitMatrixDisplay[i][j], gbc);
+
+                            splitMatrixDisplay[i][j] = new JLabel(Integer.toString(splitMatrixResult[7][i][j]));
+                            splitMatrixDisplay[i][j].setFont(new Font("Arial", Font.BOLD, 25));
+                            gbc.gridx = j+5;
+                            panelOne.add(splitMatrixDisplay[i][j], gbc);
+
+                            splitMatrixDisplay[i][j] = new JLabel(")");
+                            splitMatrixDisplay[i][j].setFont(new Font("Arial", Font.BOLD, 25));
+                            gbc.gridx = j+6;
+                            panelOne.add(splitMatrixDisplay[i][j], gbc);
                         }
                         case 2 -> {
-                            splitMatrixDisplay[i][j] = new JLabel(Integer.toString(splitMatrixResult[processCounter][i][j]));
-                            pointMatrixDisplay[i][j] = new JLabel(Integer.toString(pointsMatrixResult[processCounter][i][j]));
+                            splitMatrixDisplay[i][j] = new JLabel("(");
                             splitMatrixDisplay[i][j].setFont(new Font("Arial", Font.BOLD, 25));
-                            pointMatrixDisplay[i][j].setFont(new Font("Arial", Font.BOLD, 25));
                             panelThree.add(splitMatrixDisplay[i][j], gbc);
-                            panelThree.add(pointMatrixDisplay[i][j], gbc);
+
+                            splitMatrixDisplay[i][j] = new JLabel(Integer.toString(splitMatrixResult[2][i][j]));
+                            splitMatrixDisplay[i][j].setFont(new Font("Arial", Font.BOLD, 25));
+                            gbc.gridx = j+2;
+                            panelThree.add(splitMatrixDisplay[i][j], gbc);
+
+                            splitMatrixDisplay[i][j] = new JLabel("+");
+                            splitMatrixDisplay[i][j].setFont(new Font("Arial", Font.BOLD, 25));
+                            gbc.gridx = j+3;
+                            panelThree.add(splitMatrixDisplay[i][j], gbc);
+
+                            splitMatrixDisplay[i][j] = new JLabel(Integer.toString(splitMatrixResult[3][i][j]));
+                            splitMatrixDisplay[i][j].setFont(new Font("Arial", Font.BOLD, 25));
+                            gbc.gridx = j+4;
+                            panelThree.add(splitMatrixDisplay[i][j], gbc);
+
+                            splitMatrixDisplay[i][j] = new JLabel(")");
+                            splitMatrixDisplay[i][j].setFont(new Font("Arial", Font.BOLD, 25));
+                            gbc.gridx = j+5;
+                            panelThree.add(splitMatrixDisplay[i][j], gbc);
+
+                            splitMatrixDisplay[i][j] = new JLabel(Integer.toString(splitMatrixResult[5][i][j]));
+                            splitMatrixDisplay[i][j].setFont(new Font("Arial", Font.BOLD, 25));
+                            gbc.gridx = j+6;
+                            panelThree.add(splitMatrixDisplay[i][j], gbc);
+
                         }
                         case 3 -> {
-                            splitMatrixDisplay[i][j] = new JLabel(Integer.toString(splitMatrixResult[processCounter][i][j]));
-                            pointMatrixDisplay[i][j] = new JLabel(Integer.toString(pointsMatrixResult[processCounter][i][j]));
+                            splitMatrixDisplay[i][j] = new JLabel(Integer.toString(splitMatrixResult[3][i][j]));
                             splitMatrixDisplay[i][j].setFont(new Font("Arial", Font.BOLD, 25));
-                            pointMatrixDisplay[i][j].setFont(new Font("Arial", Font.BOLD, 25));
                             panelFour.add(splitMatrixDisplay[i][j], gbc);
-                            panelFour.add(pointMatrixDisplay[i][j], gbc);
+
+                            splitMatrixDisplay[i][j] = new JLabel("(");
+                            splitMatrixDisplay[i][j].setFont(new Font("Arial", Font.BOLD, 25));
+                            gbc.gridx = j+2;
+                            panelFour.add(splitMatrixDisplay[i][j], gbc);
+
+                            splitMatrixDisplay[i][j] = new JLabel(Integer.toString(splitMatrixResult[6][i][j]));
+                            splitMatrixDisplay[i][j].setFont(new Font("Arial", Font.BOLD, 25));
+                            gbc.gridx = j+3;
+                            panelFour.add(splitMatrixDisplay[i][j], gbc);
+
+                            splitMatrixDisplay[i][j] = new JLabel("-");
+                            splitMatrixDisplay[i][j].setFont(new Font("Arial", Font.BOLD, 25));
+                            gbc.gridx = j+4;
+                            panelFour.add(splitMatrixDisplay[i][j], gbc);
+
+                            splitMatrixDisplay[i][j] = new JLabel(Integer.toString(splitMatrixResult[5][i][j]));
+                            splitMatrixDisplay[i][j].setFont(new Font("Arial", Font.BOLD, 25));
+                            gbc.gridx = j+5;
+                            panelFour.add(splitMatrixDisplay[i][j], gbc);
+
+                            splitMatrixDisplay[i][j] = new JLabel(")");
+                            splitMatrixDisplay[i][j].setFont(new Font("Arial", Font.BOLD, 25));
+                            gbc.gridx = j+7;
+                            panelFour.add(splitMatrixDisplay[i][j], gbc);
                         }
                     }
-
                     splitMatrixDisplay[i][j].setHorizontalAlignment(JLabel.LEFT);
-                    pointMatrixDisplay[i][j].setHorizontalAlignment(JLabel.RIGHT);
                 }
             }
             ++quadrantCounter;
         }
+       /* pointMatrixDisplay = new JLabel[row][column];
+        quadrantCounter = 0;
+
+        for (int processCounter = loopStart; processCounter < loopEnd; ++processCounter) {
+            for (i = 0; i < resultantMatrixResult[resultantMatrixCounter].length; i++) {
+                for (j = 0; j < resultantMatrixResult[resultantMatrixCounter][i].length; j++) {
+                    gbc.gridx = j + 2;
+                    gbc.gridy = i ;
+                    switch (quadrantCounter) {
+                        case 0 -> {
+                            pointMatrixDisplay[i][j] = new JLabel(Integer.toString(pointsMatrixResult[processCounter][i][j]));
+                            pointMatrixDisplay[i][j].setFont(new Font("Arial", Font.BOLD, 25));
+                            panelTwo.add(pointMatrixDisplay[i][j], gbc);
+                            splitMatrixDisplay[i][j].setHorizontalAlignment(JLabel.LEFT);
+                            pointMatrixDisplay[i][j].setHorizontalAlignment(JLabel.RIGHT);
+                        }
+                        case 1 -> {
+                            pointMatrixDisplay[i][j] = new JLabel(Integer.toString(pointsMatrixResult[processCounter][i][j]));
+                            pointMatrixDisplay[i][j].setFont(new Font("Arial", Font.BOLD, 25));
+                            panelOne.add(pointMatrixDisplay[i][j], gbc);
+                        }
+                        case 2 -> {
+                            pointMatrixDisplay[i][j] = new JLabel(Integer.toString(pointsMatrixResult[processCounter][i][j]));
+                            pointMatrixDisplay[i][j].setFont(new Font("Arial", Font.BOLD, 25));
+                            panelThree.add(pointMatrixDisplay[i][j], gbc);
+                        }
+                        case 3 -> {
+                            pointMatrixDisplay[i][j] = new JLabel(Integer.toString(pointsMatrixResult[processCounter][i][j]));
+                            pointMatrixDisplay[i][j].setFont(new Font("Arial", Font.BOLD, 25));
+                            panelFour.add(pointMatrixDisplay[i][j], gbc);
+                        }
+                    }
+
+                }
+            }
+            ++quadrantCounter;
+        }
+*/
     }
 
-    public void resultMatrix() {
+    public void resultMatrix(String matrixLetter) {
+        resultMatrixDisplay = new JLabel[row][column];
+        int loopStart = 0;
+        int loopEnd = 0;
+        int quadrantCounter = 0;
 
+        if (matrixLetter.equals("C")) {
+            loopEnd = 4;
+        } else {
+            loopStart = 4;
+            loopEnd = 8;
+        }
+
+        for (int processCounter = loopStart; processCounter < loopEnd; ++processCounter) {
+            for (i = 0; i < resultantMatrixResult[resultantMatrixCounter].length; i++) {
+                for (j = 0; j < resultantMatrixResult[resultantMatrixCounter][i].length; j++) {
+                    gbc.gridx = j;
+                    gbc.gridy = i;
+
+                    switch (quadrantCounter) {
+                        case 0 -> {
+                            resultMatrixDisplay[i][j] = new JLabel(Integer.toString(resultantMatrixResult[processCounter][i][j]));
+                            resultMatrixDisplay[i][j].setFont(new Font("Arial", Font.BOLD, 25));
+                            panelTwo.add(resultMatrixDisplay[i][j], gbc);
+                        }
+                        case 1 -> {
+                            splitMatrixDisplay[i][j] = new JLabel(Integer.toString(resultantMatrixResult[processCounter][i][j]));
+                            resultMatrixDisplay[i][j].setFont(new Font("Arial", Font.BOLD, 25));
+                            panelOne.add(resultMatrixDisplay[i][j], gbc);
+                        }
+                        case 2 -> {
+                            resultMatrixDisplay[i][j] = new JLabel(Integer.toString(resultantMatrixResult[processCounter][i][j]));
+                            resultMatrixDisplay[i][j].setFont(new Font("Arial", Font.BOLD, 25));
+                            panelThree.add(resultMatrixDisplay[i][j], gbc);
+                        }
+                        case 3 -> {
+                            resultMatrixDisplay[i][j] = new JLabel(Integer.toString(resultantMatrixResult[processCounter][i][j]));
+                            resultMatrixDisplay[i][j].setFont(new Font("Arial", Font.BOLD, 25));
+                            panelFour.add(resultMatrixDisplay[i][j], gbc);
+                        }
+                    }
+
+                    resultMatrixDisplay[i][j].setHorizontalAlignment(JLabel.CENTER);
+                }
+            }
+            ++quadrantCounter;
+        }
     }
 
 }
