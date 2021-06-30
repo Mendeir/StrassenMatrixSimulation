@@ -251,6 +251,7 @@ public class InputWindow extends JFrame implements ActionListener {
         }
     }
 
+    // Method for next button displays and actions
     public void nextButton() {
         switch(navigationCounter) {
             case 0:
@@ -284,6 +285,7 @@ public class InputWindow extends JFrame implements ActionListener {
         }
     }
 
+    // Method for setting the titles of the borders foe each panels
     public void displaySplitBox(String q1Title, String q2Title, String q3Title, String q4Title) {
         title = BorderFactory.createTitledBorder(blackLine, q1Title);
         title.setTitleJustification(TitledBorder.CENTER);
@@ -299,6 +301,7 @@ public class InputWindow extends JFrame implements ActionListener {
         panelFour.setBorder(title);
     }
 
+    // Method for borders in every panels and each formats
     public void displaySplitBox(String q1Title, String q2Title, String q3Title) {
         title = BorderFactory.createTitledBorder(blackLine, q1Title);
         title.setTitleJustification(TitledBorder.CENTER);
