@@ -7,8 +7,10 @@ public class ErrorWindow {
     JLabel labelInput = new JLabel("Error, Input number, Please Try again");
 
     // Constructor
-    ErrorWindow(){
+    ErrorWindow()
+    {
         InputError();
+
     }
 
     // Window for NumberFormat exception
