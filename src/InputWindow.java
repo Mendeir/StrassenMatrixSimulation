@@ -317,8 +317,7 @@ public class InputWindow extends JFrame implements ActionListener {
 
     // Methods for panel result of the program
     public void displayResultPanel(String resultTitle) {
-        panelOne.setBounds(400, 50, 700, 300);
-        panelOne.setLayout(new GridBagLayout());
+        panelOne.setBounds(400, 80, 700, 500);
         title = BorderFactory.createTitledBorder(blackLine, resultTitle);
         title.setTitleJustification(TitledBorder.CENTER);
         panelOne.setBorder(title);
@@ -518,7 +517,7 @@ public class InputWindow extends JFrame implements ActionListener {
     }
 
     // Method for result display
-    public void resultDisplay(int [][] resultNumbers){
+    public void resultDisplay(){
         resultMatrixDisplay = new JLabel[row][column];
         panelOne.removeAll();
         panelOne.revalidate();
@@ -526,11 +525,11 @@ public class InputWindow extends JFrame implements ActionListener {
 
         for (i = 0; i < row ; i++) {
             for (j = 0; j < column ; j++) {
-                resultMatrixDisplay[i][j] = new JLabel(Integer.toString(resultStorage[i][j]));;
+                resultMatrixDisplay[i][j] = new JLabel(Integer.toString(resultStorage[i][j]));
                 gbc.gridx = j;
                 gbc.gridy = i;
                 resultMatrixDisplay[i][j].setFont(new Font("Arial", Font.BOLD, 25));
-                panelOne.add(resultantMatrixDisplay[i][j],gbc);
+                panelOne.add(resultMatrixDisplay[i][j],gbc);
                 resultMatrixDisplay[i][j].setHorizontalAlignment(JLabel.CENTER);
             }
         }
