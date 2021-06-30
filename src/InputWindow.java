@@ -190,7 +190,7 @@ public class InputWindow extends JFrame implements ActionListener {
             frame.repaint();
 
             nextButton();
-            if(navigationCounter <= 5)
+            if(navigationCounter != 5)
                 ++navigationCounter;
 
         }
