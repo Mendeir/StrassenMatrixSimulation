@@ -145,77 +145,74 @@ public class InputWindow extends JFrame implements ActionListener {
         if (e.getSource() == randomButton) {
             for (i = 0; i < row; i++) {
                 for (j = 0; j < column; j++) {
-                    inputOne[i][j].setText(String.format("%d", (int) (Math.random() * 5)));
-                    inputTwo[i][j].setText(String.format("%d", (int) (Math.random() * 5)));
+                    inputOne[i][j].setText(String.format("%d", (int) (Math.random() * 10)));
+                    inputTwo[i][j].setText(String.format("%d", (int) (Math.random() * 10)));
                 }
             }
         }
 
-            // Enter button action
-            if (e.getSource() == enterButton) {
-                try {
-                    // Initialize matrixA and matrixB sizes
-                    matrixA = new int[row][column];
-                    matrixB = new int[row][column];
+        // Enter button action
+        if (e.getSource() == enterButton) {
+            try {
+                // Initialize matrixA and matrixB sizes
+                matrixA = new int[row][column];
+                matrixB = new int[row][column];
 
-                    // Store all the values input by the user on Matrix A and Matrix B
-                    for (i = 0; i < row; i++) {
-                        for (j = 0; j < column; j++) {
-                            matrixA[i][j] = Integer.parseInt(inputOne[i][j].getText());
-                            matrixB[i][j] = Integer.parseInt(inputTwo[i][j].getText());
-                        }
+                // Store all the values input by the user on Matrix A and Matrix B
+                for (i = 0; i < row; i++) {
+                    for (j = 0; j < column; j++) {
+                        matrixA[i][j] = Integer.parseInt(inputOne[i][j].getText());
+                        matrixB[i][j] = Integer.parseInt(inputTwo[i][j].getText());
                     }
-                    displayGivenMatrix(matrixA, matrixB);
-                    resultStorage = strassenLogic.multiplyMatrix(matrixA, matrixB);
-                    splitMatrixResult = strassenLogic.getSplitMatrixResult();
-                    pointsMatrixResult = strassenLogic.getPointsMatrixResult();
-                    resultantMatrixResult = strassenLogic.getResultantMatrixResult();
-                }catch (NumberFormatException er){
-                    ErrorWindow error = new ErrorWindow();
                 }
-
+                displayGivenMatrix(matrixA, matrixB);
+                resultStorage = strassenLogic.multiplyMatrix(matrixA, matrixB);
+                splitMatrixResult = strassenLogic.getSplitMatrixResult();
+                pointsMatrixResult = strassenLogic.getPointsMatrixResult();
+                resultantMatrixResult = strassenLogic.getResultantMatrixResult();
+            }catch (NumberFormatException er){
+                ErrorWindow error = new ErrorWindow();
             }
 
-            // Next Button Action
-            if (e.getSource() == rightButton) {
-               // try {
-                    panelOne.removeAll();
-                    panelOne.revalidate();
-                    panelTwo.removeAll();
-                    panelTwo.revalidate();
-                    panelThree.removeAll();
-                    panelThree.revalidate();
-                    panelFour.removeAll();
-                    panelFour.revalidate();
-                    frame.repaint();
-
-                    nextButton();
-                    if(navigationCounter <= 5)
-                        ++navigationCounter;
-
-                //}catch(NullPointerException n){
-
-                //}
-            }
-
-            // Previous Button Action
-            if (e.getSource() == leftButton) {
-                panelOne.removeAll();
-                panelOne.revalidate();
-                panelTwo.removeAll();
-                panelTwo.revalidate();
-                panelThree.removeAll();
-                panelThree.revalidate();
-                panelFour.removeAll();
-                panelFour.revalidate();
-                frame.repaint();
-
-                if(navigationCounter != 0)
-                    navigationCounter--;
-
-                nextButton();
-            }
         }
+
+        // Next Button Action
+        if (e.getSource() == rightButton) {
+
+            panelOne.removeAll();
+            panelOne.revalidate();
+            panelTwo.removeAll();
+            panelTwo.revalidate();
+            panelThree.removeAll();
+            panelThree.revalidate();
+            panelFour.removeAll();
+            panelFour.revalidate();
+            frame.repaint();
+
+            nextButton();
+            if(navigationCounter <= 5)
+                ++navigationCounter;
+
+        }
+
+        // Previous Button Action
+        if (e.getSource() == leftButton) {
+            panelOne.removeAll();
+            panelOne.revalidate();
+            panelTwo.removeAll();
+            panelTwo.revalidate();
+            panelThree.removeAll();
+            panelThree.revalidate();
+            panelFour.removeAll();
+            panelFour.revalidate();
+            frame.repaint();
+
+            if(navigationCounter != 0)
+                navigationCounter--;
+
+            nextButton();
+        }
+    }
 
     // layout for combo box options
     public void gridLayoutOne(int row, int column) {
@@ -281,7 +278,7 @@ public class InputWindow extends JFrame implements ActionListener {
                 break;
             case 5:
                 displayResultPanel("STRASSEN MULTIPLICATION RESULT");
-                resultDisplay(resultStorage);
+                resultDisplay();
                 break;
 
         }
